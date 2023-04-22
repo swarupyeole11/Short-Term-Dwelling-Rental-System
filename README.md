@@ -1,4 +1,4 @@
-# Real Estate NFT DApp
+# Dwelling APP
 
 ## Technology Stack & Tools
 
