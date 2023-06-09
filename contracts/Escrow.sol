@@ -30,6 +30,9 @@ contract Escrow {
         _;
     }
 
+    //the zipcode coming from the frontend map in here 
+    mapping(uint256=> uint256 ) public zipcode;
+
     mapping(uint256 => bool) public isListed;
     mapping(uint256 => uint256) public purchasePrice;
     mapping(uint256 => uint256) public escrowAmount;
@@ -54,13 +57,25 @@ contract Escrow {
         address _buyer,
         uint256 _purchasePrice,
         uint256 _escrowAmount
+        // uint256 _zipcode
     ) public payable onlySeller {
         // Transfer NFT from seller to this contract
         IERC721(nftAddress).transferFrom(msg.sender, address(this), _nftID);
-
+        
+        // makes the value true that nft has been listed 
         isListed[_nftID] = true;
+
+        // puchase price is the price for the whole stay 
         purchasePrice[_nftID] = _purchasePrice;
+
+        // escrow amount is the token amount here we are setting the escrow amount to the nft coressponding to it.
         escrowAmount[_nftID] = _escrowAmount;
+
+
+        //setting up the 
+        // zipcode[_nftID] = _zipcode;
+
+        
         buyer[_nftID] = _buyer;
     }
 
@@ -73,7 +88,8 @@ contract Escrow {
     function updateInspectionStatus(uint256 _nftID, bool _passed)
         public
         onlyInspector
-    {
+    {   
+        // to see whether the inspection has been passed or not 
         inspectionPassed[_nftID] = _passed;
     }
 
@@ -89,10 +105,10 @@ contract Escrow {
     // -> Transfer NFT to buyer
     // -> Transfer Funds to Seller
     function finalizeSale(uint256 _nftID) public {
-        require(inspectionPassed[_nftID]);
+        // require(inspectionPassed[_nftID]);
         require(approval[_nftID][buyer[_nftID]]);
         require(approval[_nftID][seller]);
-        require(approval[_nftID][lender]);
+        // require(approval[_nftID][lender]);
         require(address(this).balance >= purchasePrice[_nftID]);
 
         isListed[_nftID] = false;
@@ -116,7 +132,8 @@ contract Escrow {
     }
 
     receive() external payable {}
-
+     
+    // gives balance present in the contract 
     function getBalance() public view returns (uint256) {
         return address(this).balance;
     }

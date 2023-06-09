@@ -4,6 +4,10 @@
 // You can also run a script with `npx hardhat run <script>`. If you do that, Hardhat
 // will compile your contracts, add the Hardhat Runtime Environment's members to the
 // global scope, and execute the script.
+
+// THE SCRIPT IS REQUIRED TO BASICALLY DOEPLOY THE SMART CONTRACT ON THE LOCAL BLOCKCHAIN
+
+
 const hre = require("hardhat");
 
 const tokens = (n) => {
